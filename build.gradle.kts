@@ -57,8 +57,8 @@ gradlePlugin {
             implementationClass = "de.comahe.maven.settings.gradle.plugin.MavenSettingsPlugin"
             displayName = "maven-settings"
             description =
-                "Gradle plugin for exposing Maven settings file configuration to Gradle project." +
-                        "Can be applied to 'project' and 'Settings'"
+                "Gradle plugin for exposing/reading Maven settings file configuration to Gradle project. " +
+                        "Can be applied to 'Project' and 'Settings'"
 
         }
     }
