@@ -1,5 +1,7 @@
 # Gradle Maven settings plugin
 
+**Home:** [github.com/comahe-de/gradle-maven-settings-plugin](https://github.com/comahe-de/gradle-maven-settings-plugin)
+
 ## Overview
 
 This Gradle plugin provides a migration path for projects coming from a Maven ecosystem. It exposes
