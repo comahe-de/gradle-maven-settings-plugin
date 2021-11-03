@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.comahe.maven.settings.gradle.plugin
+package de.comahe.gradle.plugin.maven.settings
 
 import org.gradle.api.Project
 import org.gradle.api.initialization.Settings

@@ -1,6 +1,5 @@
-package de.comahe.maven.settings.gradle.plugin
+package de.comahe.gradle.plugin.maven.settings
 
-import de.comahe.maven.settings.LocalMavenSettingsLoader
 import org.apache.maven.model.path.DefaultPathTranslator
 import org.apache.maven.model.profile.DefaultProfileActivationContext
 import org.apache.maven.model.profile.DefaultProfileSelector

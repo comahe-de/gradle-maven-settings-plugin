@@ -6,8 +6,8 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "de.comahe.maven.settings"
-version = "0.0.1"
+group = "de.comahe.gradle.plugin"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
@@ -54,7 +54,7 @@ gradlePlugin {
     plugins {
         create("maven-settings") {
             id = "de.comahe.maven-settings"
-            implementationClass = "de.comahe.maven.settings.gradle.plugin.MavenSettingsPlugin"
+            implementationClass = "de.comahe.gradle.plugin.maven.settings.MavenSettingsPlugin"
             displayName = "maven-settings"
             description =
                 "Gradle plugin for exposing/reading Maven settings file configuration to Gradle project. " +

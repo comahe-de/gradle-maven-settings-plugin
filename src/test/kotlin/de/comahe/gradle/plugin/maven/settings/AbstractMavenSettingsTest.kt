@@ -1,4 +1,4 @@
-package de.comahe.maven.settings.gradle.plugin
+package de.comahe.gradle.plugin.maven.settings
 
 import org.apache.maven.settings.Settings
 import org.apache.maven.settings.io.DefaultSettingsWriter

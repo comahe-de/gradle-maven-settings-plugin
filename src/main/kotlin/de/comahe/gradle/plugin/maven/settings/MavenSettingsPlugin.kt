@@ -1,4 +1,4 @@
-package de.comahe.maven.settings.gradle.plugin
+package de.comahe.gradle.plugin.maven.settings
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

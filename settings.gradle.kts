@@ -1,1 +1,1 @@
-rootProject.name = "maven-settings-plugin"
+rootProject.name = "gradle-maven-settings-plugin"
