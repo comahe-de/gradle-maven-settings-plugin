@@ -97,6 +97,13 @@ internal class MavenSettingsHandler(
                     repositories.maven {
                         name = repositoryMaven.id
                         url = URI(repositoryMaven.url)
+                        mavenContent {
+                            if (repositoryMaven.releases.isEnabled && !repositoryMaven.snapshots.isEnabled)
+                                releasesOnly()
+                            if (!repositoryMaven.releases.isEnabled && repositoryMaven.snapshots.isEnabled)
+                                snapshotsOnly()
+                        }
+
                     }
                 }
             }
