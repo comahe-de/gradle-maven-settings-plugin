@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "de.comahe.gradle.plugin"
-version = "0.2.0-SNAPSHOT"
+version = "0.2.0"
 
 repositories {
     mavenCentral()
