@@ -1,21 +1,22 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    kotlin("jvm") version "1.5.31"
+    kotlin("jvm") version "2.1.21"
     `java-gradle-plugin`
-    id("com.gradle.plugin-publish") version "0.16.0"
+    id("com.gradle.plugin-publish") version "1.3.1"
     `maven-publish`
     `kotlin-dsl`
 }
 
 group = "de.comahe.gradle.plugin"
-version = "0.1.0"
+version = "0.2.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    jcenter()
     maven { setUrl("https://jitpack.io") }
 }
 
-val mavenVersion = "3.8.1"
+val mavenVersion = "3.8.9"
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
@@ -27,30 +28,38 @@ dependencies {
     implementation("org.apache.maven:maven-core:$mavenVersion")
     implementation("org.sonatype.plexus:plexus-cipher:1.7")
     implementation("org.sonatype.plexus:plexus-sec-dispatcher:1.4")
+    // replacee the transitive dependency with a newer version
+    implementation("com.google.guava:guava:33.4.8-jre")
 
     compileOnly(gradleApi())
-    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
+    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.21")
 
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.hamcrest:hamcrest-library:2.2")
 }
 
-configure<JavaPluginConvention> {
+configure<JavaPluginExtension> {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
 
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+        }
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+        }
     }
 }
 
 gradlePlugin {
+    website.set("https://comahe-de.github.io/gradle-maven-settings-plugin")
+    vcsUrl.set("https://github.com/comahe-de/gradle-maven-settings-plugin")
     plugins {
         create("maven-settings") {
             id = "de.comahe.maven-settings"
@@ -59,16 +68,12 @@ gradlePlugin {
             description =
                 "Gradle plugin for exposing/reading Maven settings file configuration to Gradle project. " +
                         "Can be applied to 'Project' and 'Settings'"
+            tags = listOf("settings", "maven")
 
         }
     }
 }
 
-pluginBundle {
-    website = "https://comahe-de.github.io/gradle-maven-settings-plugin"
-    vcsUrl = "https://github.com/comahe-de/gradle-maven-settings-plugin"
-    tags = listOf("settings", "maven")
-}
 
 java {
     withSourcesJar()

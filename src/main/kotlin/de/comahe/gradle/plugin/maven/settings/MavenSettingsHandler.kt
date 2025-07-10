@@ -1,6 +1,8 @@
 package de.comahe.gradle.plugin.maven.settings
 
+import com.google.common.collect.ImmutableList
 import org.apache.maven.model.path.DefaultPathTranslator
+import org.apache.maven.model.path.ProfileActivationFilePathInterpolator
 import org.apache.maven.model.profile.DefaultProfileActivationContext
 import org.apache.maven.model.profile.DefaultProfileSelector
 import org.apache.maven.model.profile.activation.FileProfileActivator
@@ -43,11 +45,15 @@ internal class MavenSettingsHandler(
     ) {
         val profileSelector = DefaultProfileSelector()
         val activationContext = DefaultProfileActivationContext()
+        val profileActivationFilePathInterpolator = ProfileActivationFilePathInterpolator().apply {
+            setPathTranslator(DefaultPathTranslator())
+        }
+
         val profileActivators = listOf<ProfileActivator>(
             JdkVersionProfileActivator(),
             OperatingSystemProfileActivator(),
             PropertyProfileActivator(),
-            FileProfileActivator().setPathTranslator(DefaultPathTranslator())
+            FileProfileActivator().setProfileActivationFilePathInterpolator(profileActivationFilePathInterpolator)
         )
 
         profileActivators.forEach {
@@ -211,8 +217,8 @@ internal class MavenSettingsHandler(
         if (server == null || server.username == null || server.password == null)
             return
         logger.info(
-            "Maven-Settings - Setting credentials for repository - id: {} - url: {}",
-            repo.name, repo.url
+            "Maven-Settings - Setting credentials for repository - id: {} - url: {} - user: {}",
+            repo.name, repo.url,  server.username
         )
         repo.credentials {
             username = server.username
