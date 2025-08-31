@@ -29,7 +29,7 @@ the [Gradle Plugin Portal](https://plugins.gradle.org/plugin/de.comahe.maven-set
 plugin, add the following to your `build.gradle.kts` file.
 
     plugins {
-      id ("de.comahe.maven-settings") version "0.1.0"
+      id ("de.comahe.maven-settings") version "0.2.1"
     }
 
 To load also plugins from your private repositories you have to apply the plugin in the

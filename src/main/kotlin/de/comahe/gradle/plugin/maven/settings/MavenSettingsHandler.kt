@@ -1,6 +1,5 @@
 package de.comahe.gradle.plugin.maven.settings
 
-import com.google.common.collect.ImmutableList
 import org.apache.maven.model.path.DefaultPathTranslator
 import org.apache.maven.model.path.ProfileActivationFilePathInterpolator
 import org.apache.maven.model.profile.DefaultProfileActivationContext
@@ -22,6 +21,7 @@ import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.api.logging.Logger
 import org.gradle.api.plugins.ExtraPropertiesExtension
 import java.io.File
+import java.io.IOException
 import java.net.InetAddress
 import java.net.NetworkInterface
 import java.net.URI
@@ -137,12 +137,23 @@ internal class MavenSettingsHandler(
                         "with mirror located at ${externalMirror.url}"
             )
             createMirrorRepository(repositories, externalMirror) { repo ->
-                val host = InetAddress.getByName(repo.url.host)
-                // only match repositories not on localhost and not file based
-                return@createMirrorRepository repo.url.scheme != "file"
-                        && !(host.isAnyLocalAddress
-                        || host.isLoopbackAddress
-                        || NetworkInterface.getByInetAddress(host) != null)
+                if (repo.url.scheme == "file")
+                    return@createMirrorRepository false
+
+                try {// try host resolution
+                    val host = InetAddress.getByName(repo.url.host)
+                    // only match repositories not on localhost and not file based
+                    return@createMirrorRepository !(host.isAnyLocalAddress
+                            || host.isLoopbackAddress
+                            || NetworkInterface.getByInetAddress(host) != null)
+                } catch (e: IOException) {
+                    // if offline, try simple name comparison for localhost
+                    return@createMirrorRepository !(repo.url.host.equals("localhost", true)
+                            || repo.url.host.equals("127.0.0.1")
+                            || repo.url.host.equals("[0000:0000:0000:0000:0000:0000:0000:0001]")
+                            || repo.url.host.equals("[0:0:0:0:0:0:0:1]")
+                            || repo.url.host.equals("[::1]"))
+                }
             }
             return
         }
